@@ -1,0 +1,94 @@
+<local:MyPageRight
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:PCL" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    mc:Ignorable="d" x:Class="PageSetupAi"
+    PanScroll="PanBack">
+    <local:MyScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" x:Name="PanBack">
+        <StackPanel x:Name="PanMain" Margin="25,10">
+                <local:MyCard Margin="0,0,0,15" Title="AI 崩溃分析" x:Name="CardAi">
+                    <StackPanel Margin="25,40,25,15">
+                        <TextBlock Text="填写任意兼容 OpenAI 格式的接口，就能让 AI 分析崩溃日志。推荐 DeepSeek：国内可直连、价格低。"
+                                   TextWrapping="Wrap" Margin="0,0,0,12" Foreground="{StaticResource ColorBrushGray4}" />
+                        <TextBlock Text="服务商" Margin="0,0,0,6" />
+                        <local:MyTextBox x:Name="TextAiSearch" HintText="搜索服务商，例如 groq / 智谱 / 魔搭 / 硅基" Margin="0,0,0,6" />
+                        <local:MyComboBox x:Name="ComboAiProvider" Margin="0,0,0,12" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="API Key" VerticalAlignment="Center" Margin="0,0,15,8" />
+                            <local:MyTextBox x:Name="TextAiKey" Grid.Column="1" Margin="0,0,0,8" local:SettingService.Key="AiAnalyzeApiKey" />
+                            <TextBlock Grid.Row="1" Text="接口地址" VerticalAlignment="Center" Margin="0,0,15,8" />
+                            <local:MyTextBox x:Name="TextAiUrl" Grid.Row="1" Grid.Column="1" Margin="0,0,0,8" local:SettingService.Key="AiAnalyzeApiUrl" />
+                            <TextBlock Grid.Row="2" Text="模型" VerticalAlignment="Center" Margin="0,0,15,0" />
+                            <local:MyComboBox x:Name="ComboAiModel" Grid.Row="2" Grid.Column="1" />
+                        </Grid>
+                        <TextBlock Text="文件修改权限" Margin="0,14,0,6" FontWeight="Bold" />
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                            <local:MyRadioBox x:Name="RadioAiPerm0" Text="只读" Margin="0,0,20,0" local:SettingService.Key="AiPermission" local:SettingService.Value="0" />
+                            <local:MyRadioBox x:Name="RadioAiPerm1" Text="可写游戏目录" Margin="0,0,20,0" local:SettingService.Key="AiPermission" local:SettingService.Value="1" />
+                            <local:MyRadioBox x:Name="RadioAiPerm2" Text="完全访问" local:SettingService.Key="AiPermission" local:SettingService.Value="2" />
+                        </StackPanel>
+                        <TextBlock Text="只读：AI 只能查看文件；可写游戏目录：允许修改所选版本目录内的文件（默认）；完全访问：不限制路径，请谨慎使用。"
+                                   TextWrapping="Wrap" FontSize="12" Foreground="{StaticResource ColorBrushGray4}" />
+                        <TextBlock Text="额外允许目录（每行一个；启动器自身目录始终允许）" Margin="0,10,0,4" FontSize="12"
+                                   Foreground="{StaticResource ColorBrushGray4}" />
+                        <local:MyTextBox x:Name="TextAiExtra" Height="58" AcceptsReturn="True" TextWrapping="Wrap"
+                                        local:SettingService.Key="AiExtraFolders" />
+                        <RichTextBox x:Name="PanAiStream" MinHeight="150" MaxHeight="420" Margin="0,12,0,0"
+                                     IsReadOnly="True" VerticalScrollBarVisibility="Auto"
+                                     BorderThickness="0" Background="Transparent" Padding="0"
+                                     Visibility="Collapsed" />
+                        <WrapPanel Margin="0,12,0,0">
+                            <local:MyButton x:Name="BtnAiAnalyze" Text="分析最近日志" MinWidth="140" Padding="13,0" Height="35" ColorType="Highlight" />
+                            <local:MyButton x:Name="BtnAiHistoryRefresh" Text="刷新历史" MinWidth="110" Padding="13,0" Height="35" Margin="0,0,10,0" />
+                            <local:MyButton x:Name="BtnAiHistoryView" Text="查看选中记录" MinWidth="130" Padding="13,0" Height="35" Margin="0,0,10,0" />
+                            <local:MyButton x:Name="BtnAiHistoryDelete" Text="删除选中记录" MinWidth="130" Padding="13,0" Height="35" ColorType="Red" />
+                        </WrapPanel>
+                        <TextBlock Text="分析历史" Margin="0,16,0,6" FontWeight="Bold" />
+                        <TextBlock x:Name="LabAiHistoryHint" Text="还没有分析记录。" TextWrapping="Wrap" Margin="0,0,0,6"
+                                   Foreground="{StaticResource ColorBrushGray4}" />
+                        <StackPanel x:Name="PanAiHistory" />
+                        <StackPanel x:Name="PanAiActions" />
+                    </StackPanel>
+                </local:MyCard>
+            <local:MyCard Margin="0,0,0,15" Title="本地翻译模型（离线）" x:Name="CardLocalAi">
+                <StackPanel Margin="25,40,25,15">
+                    <TextBlock Text="用本地运行的中英翻译模型（Haidass-Translate-143M，Q8 量化）翻译 Mod 介绍，全程离线、不消耗任何在线额度。"
+                               TextWrapping="Wrap" Margin="0,0,0,4" Foreground="{StaticResource ColorBrushGray4}" />
+                    <TextBlock Text="首次使用需要下载运行环境与翻译模型；勾选下面的选项后，这些资源会在启动时后台静默下载。"
+                               TextWrapping="Wrap" Margin="0,0,0,10" Foreground="{StaticResource ColorBrushGray4}" FontSize="12" />
+                    <local:MyCheckBox x:Name="CheckLocalAiAuto" Height="24" Margin="0,0,0,8"
+                                      Text="启动 PCL 时自动准备（缺什么就后台静默下载，不弹窗打扰）"
+                                      local:SettingService.Key="LocalAiAutoPrepare" />
+                    <local:MyCheckBox x:Name="CheckModInfoAutoTranslate" Height="24" Margin="0,0,0,8"
+                                      Text="打开 Mod 介绍时自动翻译成中文（不用手点）"
+                                      local:SettingService.Key="ModInfoAutoTranslate" />
+                    <TextBlock Text="Mod 介绍翻译引擎" Margin="0,4,0,6" />
+                    <local:MyComboBox x:Name="ComboTranslateEngine" Margin="0,0,0,8" local:SettingService.Key="ModTranslateEngine">
+                        <local:MyComboBoxItem Content="Google 翻译（最快，无需配置）" IsSelected="True" />
+                        <local:MyComboBoxItem Content="在线 AI（用上面的接口）" />
+                        <local:MyComboBoxItem Content="本地模型（完全离线，长文本质量有限）" />
+                    </local:MyComboBox>
+                    <TextBlock x:Name="LabLocalAiStatus" Text="正在读取状态……" TextWrapping="Wrap" Margin="0,0,0,10" />
+                    <TextBlock Text="翻译模型（按大小与用途选择，越大越准）" Margin="0,6,0,6" />
+                    <local:MyComboBox x:Name="ComboLocalModel" Margin="0,0,0,10" />
+                    <WrapPanel>
+                        <local:MyButton x:Name="BtnLocalAiInstall" Text="下载运行环境" MinWidth="140" Padding="13,0" Height="35" Margin="0,0,10,8" ColorType="Highlight" />
+                        <local:MyButton x:Name="BtnLocalAiModel" Text="下载翻译模型" MinWidth="140" Padding="13,0" Height="35" Margin="0,0,10,8" ColorType="Highlight" />
+                        <local:MyButton x:Name="BtnLocalAiStart" Text="启动本地服务" MinWidth="140" Padding="13,0" Height="35" Margin="0,0,10,8" />
+                        <local:MyButton x:Name="BtnLocalAiStop" Text="停止服务" MinWidth="110" Padding="13,0" Height="35" Margin="0,0,10,8" />
+                        <local:MyButton x:Name="BtnLocalAiRemove" Text="全部删除" MinWidth="110" Padding="13,0" Height="35" Margin="0,0,10,8" ColorType="Red" />
+                    </WrapPanel>
+                </StackPanel>
+            </local:MyCard>
+        </StackPanel>
+    </local:MyScrollViewer>
+</local:MyPageRight>

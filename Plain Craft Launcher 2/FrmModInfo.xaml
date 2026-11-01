@@ -1,0 +1,64 @@
+<Window x:Class="FrmModInfo"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:PCL;assembly="
+        Style="{StaticResource MyWindow}" WindowStyle="None" AllowsTransparency="True"
+        Background="{x:Null}" ResizeMode="CanMinimize" ShowInTaskbar="False"
+        Height="660" Width="780" MinHeight="420" MinWidth="520"
+        WindowStartupLocation="CenterOwner"
+        FontFamily="Microsoft YaHei UI" FontSize="12.5">
+    <Border Background="{DynamicResource ColorBrushBg1}" CornerRadius="9" Margin="12" SnapsToDevicePixels="True">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="18" ShadowDepth="0" Opacity="0.22" />
+        </Border.Effect>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- 标题栏（可拖动） -->
+            <Grid Grid.Row="0" x:Name="PanTitleBar" Background="Transparent" Height="44" MouseLeftButtonDown="PanTitleBar_MouseLeftButtonDown">
+                <TextBlock x:Name="LabTitle" Margin="20,0,60,0" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"
+                           TextTrimming="CharacterEllipsis" Text="Mod 介绍" />
+                <local:MyIconButton x:Name="BtnCloseTop" HorizontalAlignment="Right" VerticalAlignment="Center"
+                                    Margin="0,0,14,0" Width="26" Height="26" Theme="Black" Opacity="0.55"
+                                    LogoScale="0.85" Logo="M512 454L774 192l90 90-262 262 262 262-90 90-262-262-262 262-90-90 262-262L160 282l90-90z" />
+            </Grid>
+
+            <!-- 图标与元信息 -->
+            <Grid Grid.Row="1" Margin="20,2,20,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" Width="54" Height="54" CornerRadius="8" Background="{DynamicResource ColorBrushSemiTransparent}"
+                        SnapsToDevicePixels="True">
+                    <Image x:Name="ImgIcon" Stretch="Uniform" />
+                </Border>
+                <StackPanel Grid.Column="1" Margin="14,0,0,0" VerticalAlignment="Center">
+                    <TextBlock x:Name="LabName" FontSize="17" FontWeight="Bold" TextTrimming="CharacterEllipsis" />
+                    <TextBlock x:Name="LabMeta" FontSize="12" Opacity="0.6" Margin="0,5,0,0" TextWrapping="Wrap" />
+                </StackPanel>
+            </Grid>
+
+            <!-- 介绍正文 -->
+            <Border Grid.Row="2" Margin="20,0,20,0" CornerRadius="6" Background="{DynamicResource ColorBrushSemiTransparent}">
+                <ScrollViewer x:Name="PanScroll" Padding="14,12,14,12" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <RichTextBox x:Name="PanContent" IsReadOnly="True" BorderThickness="0" Background="Transparent"
+                                 IsDocumentEnabled="True" VerticalScrollBarVisibility="Disabled" />
+                </ScrollViewer>
+            </Border>
+
+            <!-- 底部按钮 -->
+            <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="20,12,20,18">
+                <local:MyButton x:Name="BtnTranslate" Text="翻译成中文" MinWidth="118" Padding="13,0" Height="32" Margin="0,0,10,0" ColorType="Highlight" />
+                <local:MyButton x:Name="BtnOriginal" Text="显示原文" MinWidth="98" Padding="13,0" Height="32" Margin="0,0,10,0" Visibility="Collapsed" />
+                <local:MyButton x:Name="BtnHomepage" Text="打开主页" MinWidth="98" Padding="13,0" Height="32" Margin="0,0,10,0" />
+                <local:MyButton x:Name="BtnClose" Text="关闭" MinWidth="88" Padding="13,0" Height="32" />
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>
