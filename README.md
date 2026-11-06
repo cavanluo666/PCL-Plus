@@ -12,7 +12,7 @@
 
 | 文件 | 说明 |
 |---|---|
-| `PCL-Plus-v1.0.0-Windows-x64.exe` | 标准版（.NET Framework 4.8 / Windows 7 SP1+） |
+| `PCL-Plus-Standard-v1.0.0.exe` | 标准版（.NET Framework 4.8 / Windows 7 SP1+） |
 
 ```
 SHA256: 408ce8c8ce83664ee7f6e141f842bf83a11db533ca882e7ecfb77ed31d679e91
